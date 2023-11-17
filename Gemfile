@@ -3,7 +3,7 @@ source "https://rubygems.org"
 ruby "3.2.2"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1.2"
+gem "rails", "~> 6.1.4"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -12,6 +12,9 @@ gem "sprockets-rails"
 gem "sqlite3", "~> 1.4"
 
 gem "pg"
+
+gem 'devise_token_auth'
+gem 'devise'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
