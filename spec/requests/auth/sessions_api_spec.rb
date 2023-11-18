@@ -15,17 +15,19 @@ module Auth
                     expect(response).to have_http_status(:success)
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {
-                            data: {
+                            user: {
+                                active: true,
                                 allow_password_change: false,
+                                created_at: be_an(String),
                                 email: "teste@gmail.com",
                                 id: 1,
                                 image: nil,
                                 name: nil,
                                 nickname: nil,
                                 provider: "email",
-                                uid: "teste@gmail.com",
                                 role: "user",
-                                active: true,
+                                uid: "teste@gmail.com",
+                                updated_at: be_an(String),
                             },
                         }
                     ))
@@ -42,8 +44,7 @@ module Auth
                     expect(response).to have_http_status(:unauthorized)
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {
-                            errors: ["Invalid login credentials. Please try again."],
-                            success: false,
+                            messages: ["Invalid login credentials. Please try again."],
                         }
                     ))
                 end

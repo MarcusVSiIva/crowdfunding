@@ -15,7 +15,7 @@ module Auth
                     expect(response).to have_http_status(:success)
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {
-                            data: {
+                            user: {
                                 allow_password_change: false,
                                 created_at: be_an(String),
                                 email: "teste@gmail.com",
@@ -29,13 +29,12 @@ module Auth
                                 role: "user",
                                 active: true,
                             },
-                            status: "success"
                         }
                     ))
                 end
             end
 
-            context "when registering a new user with invalid params" do
+            context "when registering a new user without password" do
                 it "returns unprocessable entity" do
                     params = {
                         email: "teste@gmail.com",
@@ -46,25 +45,64 @@ module Auth
                     expect(response).to have_http_status(:unprocessable_entity)
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {
-                            data: {
-                                allow_password_change: false,
-                                created_at: nil,
-                                email: "teste@gmail.com",
-                                id: nil,
-                                image: nil,
-                                name: nil,
-                                nickname: nil,
-                                provider: "email",
-                                uid: "",
-                                updated_at: nil,
-                                role: "user",
-                                active: true,
-                            },
-                            errors: {
-                                full_messages: [ "Password can't be blank" ],
-                                password: [ "can't be blank" ]
-                            },
-                            status: "error"
+                            messages: ["Password can't be blank"],
+                        }
+                    ))
+                end
+            end
+
+            context "when registering a new user without email" do
+                it "returns unprocessable entity" do
+                    params = {
+                        name: "Teste",
+                        nickname: "teste",
+                        password: "12345678",
+                    }
+
+                    post "/api/auth", params: params
+
+                    expect(response).to have_http_status(:unprocessable_entity)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        {
+                            messages: ["Email can't be blank"],
+                        }
+                    ))
+                end
+            end
+
+            context "when registering a new user with invalid email" do
+                it "returns unprocessable entity" do
+                    params = {
+                        email: "teste",
+                        password: "12345678",
+                    }
+
+                    post "/api/auth", params: params
+
+                    expect(response).to have_http_status(:unprocessable_entity)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        {
+                            messages: ["Email is not an email"],
+                        }
+                    ))
+                end
+            end
+
+            context "when registering a new user with email already registered" do
+                it "returns unprocessable entity" do
+                    user = User.create!(email: "teste@gmail.com", password: "12345678")
+
+                    params = {
+                        email: "teste@gmail.com",
+                        password: "12345678",
+                    }
+
+                    post "/api/auth", params: params
+
+                    expect(response).to have_http_status(:unprocessable_entity)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        {
+                            messages: ["Email has already been taken"],
                         }
                     ))
                 end
