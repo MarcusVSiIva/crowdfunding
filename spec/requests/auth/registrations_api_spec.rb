@@ -15,20 +15,18 @@ module Auth
                     expect(response).to have_http_status(:success)
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {
-                            user: {
-                                allow_password_change: false,
-                                created_at: be_an(String),
-                                email: "teste@gmail.com",
-                                id: 1,
-                                image: nil,
-                                name: nil,
-                                nickname: nil,
-                                provider: "email",
-                                uid: "teste@gmail.com",
-                                updated_at: be_an(String),
-                                role: "user",
-                                active: true,
-                            },
+                            allow_password_change: false,
+                            created_at: be_an(String),
+                            email: "teste@gmail.com",
+                            id: 1,
+                            image: nil,
+                            name: nil,
+                            nickname: nil,
+                            provider: "email",
+                            uid: "teste@gmail.com",
+                            updated_at: be_an(String),
+                            role: "user",
+                            active: true,
                         }
                     ))
                 end
@@ -140,21 +138,19 @@ module Auth
 
                     expect(response).to have_http_status(:success)
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
-                        {
-                            user: {
-                                allow_password_change: false,
-                                created_at: be_an(String),
-                                email: "new_email@gmail.com",
-                                id: 1,
-                                image: nil,
-                                name: nil,
-                                nickname: nil,
-                                provider: "email",
-                                uid: "new_email@gmail.com",
-                                updated_at: be_an(String),
-                                role: "user",
-                                active: true,
-                            }
+                        {  
+                            allow_password_change: false,
+                            created_at: be_an(String),
+                            email: "new_email@gmail.com",
+                            id: 1,
+                            image: nil,
+                            name: nil,
+                            nickname: nil,
+                            provider: "email",
+                            uid: "new_email@gmail.com",
+                            updated_at: be_an(String),
+                            role: "user",
+                            active: true,  
                         }
                     ))
                 end

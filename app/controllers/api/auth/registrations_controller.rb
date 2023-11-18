@@ -8,9 +8,7 @@ module Api
             protected
 
             def render_create_success
-              render json: {
-                user: @resource,
-              }
+              render json: @resource
             end
 
             def render_create_error
@@ -20,9 +18,7 @@ module Api
             end
 
             def render_update_success
-              render json: {
-                user: @resource,
-              }
+              render json: @resource
             end
 
             def render_update_error_user_not_found
