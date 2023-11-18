@@ -8,5 +8,7 @@ Rails.application.routes.draw do
     }
 
     resources :users, only: [:index, :update, :destroy]
+
+    resources :projects, only: [:index]
   end
 end
