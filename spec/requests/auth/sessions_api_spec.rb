@@ -15,20 +15,13 @@ module Auth
                     expect(response).to have_http_status(:success)
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {
-                            user: {
-                                active: true,
-                                allow_password_change: false,
-                                created_at: be_an(String),
-                                email: "teste@gmail.com",
-                                id: be_an(Integer),
-                                image: nil,
-                                name: nil,
-                                nickname: nil,
-                                provider: "email",
-                                role: "user",
-                                uid: "teste@gmail.com",
-                                updated_at: be_an(String),
-                            },
+                            active: true,
+                            email: "teste@gmail.com",
+                            id: be_an(Integer),
+                            image: nil,
+                            name: nil,
+                            nickname: nil,
+                            role: "user",
                         }
                     ))
                 end

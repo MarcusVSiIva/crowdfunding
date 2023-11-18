@@ -15,9 +15,7 @@ module Api
             protected
 
             def render_create_success
-              render json: {
-                user: @resource,
-              }
+              render json: ::UserSerializer.render(@resource, view: :complete)
             end
 
             def render_create_error_bad_credentials

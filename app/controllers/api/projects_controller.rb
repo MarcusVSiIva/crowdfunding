@@ -45,6 +45,22 @@ module Api
             render(json: ::ProjectSerializer.render(project, view: :complete))
         end
 
+        def list_sponsorships
+            project = project_by_id!
+
+            sponsorships = ::SponsorshipsQuery.new(request.query_parameters.merge(projectId: project.id))
+
+            result = {
+                sponsorships: sponsorships.list,
+                count: sponsorships.count,
+                page_number: sponsorships.filters[:page_number].to_i,
+                items_per_page: sponsorships.filters[:items_per_page].to_i,
+                total_amount: sponsorships.sum_amount,
+            }
+
+            render(json: ::SponsorshipSerializer.render(result, view: :index))
+        end
+
         private
 
         def project_by_id!

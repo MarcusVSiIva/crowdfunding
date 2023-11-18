@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
     resources :projects, only: [:index, :create, :update, :destroy, :show]
 
+    get '/projects/:id/sponsorships', to: 'projects#list_sponsorships'
+
     resources :sponsorships, only: [:create]
   end
 end

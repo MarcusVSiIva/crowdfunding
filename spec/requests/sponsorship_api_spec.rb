@@ -29,14 +29,6 @@ RSpec.describe 'Sponsorship', type: :request do
                             role: "user",
                             active: true,
                         },
-                        project: {
-                            id: project.id,
-                            name: project.name,
-                            description: project.description,
-                            reward: project.reward,
-                            goal: project.goal,
-                            active: true,
-                        }
                     }
                 ))
             end
