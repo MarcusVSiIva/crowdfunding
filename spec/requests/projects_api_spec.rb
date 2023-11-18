@@ -159,4 +159,39 @@ RSpec.describe 'Projects', type: :request do
             end
         end
     end
+
+    describe 'GET /projects/:id' do
+        context "when the project exists" do
+            it "returns the project" do
+                project = Project.create!(name: "testezin", description: "Teste", active: true, goal: 100, reward: "Teste")
+
+                get "/api/projects/#{project.id}"
+
+                expect(response).to have_http_status(:success)
+                expect(response.parsed_body.deep_symbolize_keys).to(match(
+                    {
+                        name: project.name,
+                        id: project.id,
+                        description: project.description,
+                        goal: project.goal,
+                        reward: project.reward,
+                        active: project.active,
+                    }
+                ))
+            end
+        end
+
+        context "when the project does not exist" do
+            it "returns status code 404" do
+                get "/api/projects/0"
+
+                expect(response).to have_http_status(:not_found)
+                expect(response.parsed_body.deep_symbolize_keys).to(match(
+                    {
+                        messages: ["Project not found"],
+                    }
+                ))
+            end
+        end
+    end
 end

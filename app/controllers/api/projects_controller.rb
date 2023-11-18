@@ -39,6 +39,12 @@ module Api
             render(json: ::ProjectSerializer.render(project, view: :complete))
         end
 
+        def show
+            project = project_by_id!
+
+            render(json: ::ProjectSerializer.render(project, view: :complete))
+        end
+
         private
 
         def project_by_id!
