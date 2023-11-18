@@ -5,6 +5,16 @@ module Api
         class RegistrationsController < DeviseTokenAuth::RegistrationsController
             before_action :validate_role, only: [:create]
 
+            def destroy
+              if @resource
+                @resource.update!(active: false)
+                yield @resource if block_given?
+                render_destroy_success
+              else
+                render_destroy_error
+              end
+            end
+
             protected
 
             def render_create_success
@@ -29,6 +39,16 @@ module Api
 
             def account_update_params
               params.permit(*params_for_resource(:account_update), :email, :password, :password_confirmation, :name, :nickname, :image)
+            end
+
+            def render_destroy_success
+              render json: @resource
+            end
+        
+            def render_destroy_error
+              render json: {
+                messages: [I18n.t("devise_token_auth.registrations.account_to_destroy_not_found")]
+              }, status: :not_found
             end
 
             private

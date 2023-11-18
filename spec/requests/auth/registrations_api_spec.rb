@@ -193,5 +193,47 @@ module Auth
                 end
             end
         end
+
+        describe 'DELETE /auth' do
+            context "when try to delete user that exists" do
+                it "returns the user data with auth headers" do
+                    user = User.create!(email: "teste@teste.com", password: "12345678")
+                    auth_params = auth_params(user)
+
+                    delete "/api/auth/", headers: auth_params
+
+                    expect(response).to have_http_status(:success)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        {
+                            allow_password_change: false,
+                            created_at: be_an(String),
+                            email: "teste@teste.com",
+                            id: 1,
+                            image: nil,
+                            name: nil,
+                            nickname: nil,
+                            provider: "email",
+                            uid: "teste@teste.com",
+                            updated_at: be_an(String),
+                            role: "user",
+                            active: false,  
+                        }
+                    ))
+                end
+            end
+
+            context "when try to delete user that does not exists" do
+                it "returns not found" do
+                    delete "/api/auth/"
+
+                    expect(response).to have_http_status(:not_found)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        {
+                            messages: ["Unable to locate account for destruction."],
+                        }
+                    ))
+                end
+            end
+        end
     end
 end
