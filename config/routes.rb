@@ -9,6 +9,6 @@ Rails.application.routes.draw do
 
     resources :users, only: [:index, :update, :destroy]
 
-    resources :projects, only: [:index]
+    resources :projects, only: [:index, :create]
   end
 end

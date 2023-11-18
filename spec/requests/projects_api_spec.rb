@@ -54,4 +54,31 @@ RSpec.describe 'Projects', type: :request do
             end
         end
     end
+
+    describe 'POST /projects' do
+        context "when it has valid parameters" do
+            it "creates the project with correct attributes" do
+                params = {
+                    name: "Teste",
+                    description: "Teste",
+                    goal: 100,
+                    reward: "Teste",
+                }
+
+                post "/api/projects", params: params
+
+                expect(response).to have_http_status(:success)
+                expect(response.parsed_body.deep_symbolize_keys).to(match(
+                    {
+                        id: be_an(Integer),
+                        name: params[:name],
+                        description: params[:description],
+                        goal: params[:goal],
+                        reward: params[:reward],
+                        active: true,
+                    }
+                ))
+            end
+        end
+    end
 end

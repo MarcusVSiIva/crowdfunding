@@ -14,5 +14,19 @@ module Api
 
             render(json: ::ProjectSerializer.render(result, view: :index))
         end
+
+        def create
+            project = Project.new(project_params)
+
+            project.save!
+            
+            render(json: ::ProjectSerializer.render(project, view: :complete))
+        end
+
+        private
+
+        def project_params
+            params.permit(:name, :description, :active, :goal, :reward)
+        end
     end
 end
