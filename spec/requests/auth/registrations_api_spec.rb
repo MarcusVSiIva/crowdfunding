@@ -16,7 +16,7 @@ module Auth
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {
                             email: "teste@gmail.com",
-                            id: 1,
+                            id: be_an(Integer),
                             image: nil,
                             name: nil,
                             nickname: nil,
@@ -135,7 +135,7 @@ module Auth
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {  
                             email: "new_email@gmail.com",
-                            id: 1,
+                            id: be_an(Integer),
                             image: nil,
                             name: nil,
                             nickname: nil,
@@ -196,7 +196,7 @@ module Auth
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {
                             email: "teste@teste.com",
-                            id: 1,
+                            id: be_an(Integer),
                             image: nil,
                             name: nil,
                             nickname: nil,

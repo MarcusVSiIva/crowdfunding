@@ -9,4 +9,6 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   scope :active, -> { where(active: true) }
+
+  has_many :sponsorships
 end

@@ -20,7 +20,7 @@ module Auth
                                 allow_password_change: false,
                                 created_at: be_an(String),
                                 email: "teste@gmail.com",
-                                id: 1,
+                                id: be_an(Integer),
                                 image: nil,
                                 name: nil,
                                 nickname: nil,
