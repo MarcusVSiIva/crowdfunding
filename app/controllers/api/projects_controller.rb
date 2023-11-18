@@ -31,6 +31,14 @@ module Api
             render(json: ::ProjectSerializer.render(project, view: :complete))
         end
 
+        def destroy
+            project = project_by_id!
+
+            project.update!(active: false)
+
+            render(json: ::ProjectSerializer.render(project, view: :complete))
+        end
+
         private
 
         def project_by_id!

@@ -124,4 +124,39 @@ RSpec.describe 'Projects', type: :request do
             end
         end
     end
+
+    describe 'DELETE /projects/:id' do
+        context "when the project exists" do
+            it "deletes the project" do
+                project = Project.create!(name: "testezin", description: "Teste", active: true, goal: 100, reward: "Teste")
+
+                delete "/api/projects/#{project.id}"
+
+                expect(response).to have_http_status(:success)
+                expect(response.parsed_body.deep_symbolize_keys).to(match(
+                    {
+                        name: project.name,
+                        id: project.id,
+                        description: project.description,
+                        goal: project.goal,
+                        reward: project.reward,
+                        active: false,
+                    }
+                ))
+            end
+        end
+
+        context "when the project does not exist" do
+            it "returns status code 404" do
+                delete "/api/projects/0"
+
+                expect(response).to have_http_status(:not_found)
+                expect(response.parsed_body.deep_symbolize_keys).to(match(
+                    {
+                        messages: ["Project not found"],
+                    }
+                ))  
+            end
+        end
+    end
 end
