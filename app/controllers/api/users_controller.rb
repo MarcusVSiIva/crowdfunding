@@ -26,6 +26,14 @@ module Api
                 }, status: :unprocessable_entity
             end
         end
+
+        def destroy
+            user = user_by_id
+
+            user.update!(active: false)
+
+            render(json: ::UserSerializer.render(user, view: :complete))
+        end
         
         private
           
@@ -40,7 +48,7 @@ module Api
         end
         
         def user_params
-            params.permit(:name, :email, :password, :nickname, :image)
+            params.permit(:name, :email, :password, :nickname, :image, :active)
         end
     end
 end

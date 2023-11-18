@@ -7,6 +7,6 @@ Rails.application.routes.draw do
       sessions: 'api/auth/sessions',
     }
 
-    resources :users, only: [:index, :update]
+    resources :users, only: [:index, :update, :destroy]
   end
 end

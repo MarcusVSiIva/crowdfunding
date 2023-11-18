@@ -15,6 +15,8 @@ class UserSerializer < Blueprinter::Base
             :name,
             :email,
             :nickname,
-            :image
+            :image,
+            :active,
+            :role
     end
 end

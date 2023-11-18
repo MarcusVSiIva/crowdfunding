@@ -22,6 +22,8 @@ RSpec.describe 'Users', type: :request do
                                 image: nil,
                                 name: user.name,
                                 nickname: nil,
+                                active: true,
+                                role: "user",
                             },
                             {
                                 email: user2.email,
@@ -29,6 +31,8 @@ RSpec.describe 'Users', type: :request do
                                 image: nil,
                                 name: user2.name,
                                 nickname: nil,
+                                active: true,
+                                role: "user",
                             },
                         ],
                     }
@@ -57,6 +61,8 @@ RSpec.describe 'Users', type: :request do
                         nickname: params[:nickname],
                         image: nil,
                         id: user.id,
+                        active: true,
+                        role: "user",
                     }
                 ))
             end
@@ -73,7 +79,9 @@ RSpec.describe 'Users', type: :request do
 
                 expect(response).to have_http_status(:not_found)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
-                    messages: ["User not found"]
+                    {
+                        messages: ["User not found"],
+                    }
                 ))
             end
         end
@@ -112,6 +120,42 @@ RSpec.describe 'Users', type: :request do
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
                     {
                         messages: ["Email has already been taken"]
+                    }
+                ))
+            end
+        end
+    end
+
+    describe 'DELETE /users/:id' do
+        context "when the user exists" do
+            it "deletes the user" do
+                user = User.create!(email: "teste@teste.com", password: "12345678", name: "Teste")
+
+                delete "/api/users/#{user.id}"
+
+                expect(response).to have_http_status(:success)
+                expect(response.parsed_body.deep_symbolize_keys).to(match(
+                    {
+                        email: user.email,
+                        name: user.name,
+                        nickname: nil,
+                        active: false,
+                        role: "user",
+                        image: nil,
+                        id: user.id,    
+                    }
+                ))
+            end
+        end
+
+        context "when the user does not exist" do
+            it "returns a 404" do
+                delete "/api/users/0"
+
+                expect(response).to have_http_status(:not_found)
+                expect(response.parsed_body.deep_symbolize_keys).to(match(
+                    {
+                        messages: ["User not found"],
                     }
                 ))
             end
