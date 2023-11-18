@@ -18,7 +18,7 @@ module Api
             protected
 
             def render_create_success
-              render json: @resource
+              render json: ::UserSerializer.render(@resource, view: :complete)
             end
 
             def render_create_error
@@ -28,7 +28,7 @@ module Api
             end
 
             def render_update_success
-              render json: @resource
+              render json: ::UserSerializer.render(@resource, view: :complete)
             end
 
             def render_update_error_user_not_found
@@ -42,7 +42,7 @@ module Api
             end
 
             def render_destroy_success
-              render json: @resource
+              render json: ::UserSerializer.render(@resource, view: :complete)
             end
         
             def render_destroy_error
