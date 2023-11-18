@@ -18,6 +18,8 @@ gem 'devise'
 
 gem 'rack-cors'
 
+gem 'activerecord-session_store'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 

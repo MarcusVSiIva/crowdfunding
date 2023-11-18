@@ -125,5 +125,77 @@ module Auth
                 end
             end
         end
+
+        describe 'PUT /auth' do
+            context "when try to update user that exists with valid data" do
+                it "returns the user data with auth headers" do
+                    user = User.create!(email: "teste@gmail.com", password: "12345678")
+                    auth_params = auth_params(user)
+
+                    params = {
+                        email: "new_email@gmail.com",
+                    }
+
+                    put "/api/auth/", params: params, headers: auth_params
+
+                    expect(response).to have_http_status(:success)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        {
+                            user: {
+                                allow_password_change: false,
+                                created_at: be_an(String),
+                                email: "new_email@gmail.com",
+                                id: 1,
+                                image: nil,
+                                name: nil,
+                                nickname: nil,
+                                provider: "email",
+                                uid: "new_email@gmail.com",
+                                updated_at: be_an(String),
+                                role: "user",
+                                active: true,
+                            }
+                        }
+                    ))
+                end
+            end
+
+            context "when try to update user that does not exists" do
+                it "returns not found" do
+                    params = {
+                        email: "teste@teste.com",
+                    }
+
+                    put "/api/auth/", params: params
+
+                    expect(response).to have_http_status(:not_found)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        {
+                            messages: ["User not found."],
+                        }
+                    ))
+                end
+            end
+
+            context "when try to update user with invalid data" do
+                it "returns unprocessable entity" do
+                    user = User.create!(email: "teste@gmail.com", password: "12345678")
+                    auth_params = auth_params(user)
+
+                    params = {
+                        role: "admin",
+                    }
+
+                    put "/api/auth/", params: params, headers: auth_params
+
+                    expect(response).to have_http_status(:unprocessable_entity)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        {
+                            messages: ["Please submit proper account update data in request body."]
+                        }
+                    ))
+                end
+            end
+        end
     end
 end
