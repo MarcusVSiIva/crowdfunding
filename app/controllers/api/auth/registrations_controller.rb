@@ -37,10 +37,7 @@ module Api
               }, status: :not_found 
             end
 
-            def account_update_params
-              params.permit(*params_for_resource(:account_update), :email, :password, :password_confirmation, :name, :nickname, :image)
-            end
-
+            
             def render_destroy_success
               render json: ::UserSerializer.render(@resource, view: :complete)
             end
@@ -49,6 +46,15 @@ module Api
               render json: {
                 messages: [I18n.t("devise_token_auth.registrations.account_to_destroy_not_found")]
               }, status: :not_found
+            end
+
+
+            def account_update_params
+              params.permit(*params_for_resource(:account_update), :email, :password, :name, :nickname, :image)
+            end
+
+            def sign_up_params
+              params.permit(*params_for_resource(:sign_up), :email, :password, :name, :nickname, :image)
             end
 
             private

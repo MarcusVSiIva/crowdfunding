@@ -117,6 +117,33 @@ module Auth
                     ))
                 end
             end
+
+            context "when registering a new user with name, nickname and image" do
+                it "returns the user data with auth headers" do
+                    params = {
+                        name: "Teste",
+                        nickname: "teste",
+                        image: "http://teste.png",
+                        email: "teste@teste.com",
+                        password: "12345678",
+                    }
+
+                    post "/api/auth", params: params
+
+                    expect(response).to have_http_status(:success)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        {
+                            name: "Teste",
+                            nickname: "teste",
+                            image: "http://teste.png",
+                            email: "teste@teste.com",
+                            role: "user",
+                            active: true,
+                            id: be_an(Integer),
+                        }
+                    ))
+                end
+            end
         end
 
         describe 'PUT /auth' do
