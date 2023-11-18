@@ -71,6 +71,7 @@ GEM
       public_suffix (>= 2.0.2, < 6.0)
     bcrypt (3.1.20)
     bindex (0.8.1)
+    blueprinter (0.30.0)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -117,6 +118,18 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -263,6 +276,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-session_store
+  blueprinter
   bootsnap
   capybara
   debug
@@ -270,6 +284,7 @@ DEPENDENCIES
   devise_token_auth
   importmap-rails
   jbuilder
+  kaminari
   pg
   puma (>= 5.0)
   rack-cors

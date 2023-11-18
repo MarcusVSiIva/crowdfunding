@@ -6,5 +6,7 @@ Rails.application.routes.draw do
       registrations: 'api/auth/registrations',
       sessions: 'api/auth/sessions',
     }
+
+    resources :users, only: [:index]
   end
 end

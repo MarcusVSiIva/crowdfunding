@@ -18,7 +18,11 @@ gem 'devise'
 
 gem 'rack-cors'
 
+gem 'blueprinter'
+
 gem 'activerecord-session_store'
+
+gem "kaminari"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
