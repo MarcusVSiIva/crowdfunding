@@ -25,7 +25,9 @@ module Auth
                                 nickname: nil,
                                 provider: "email",
                                 uid: "teste@gmail.com",
-                                updated_at: be_an(String)
+                                updated_at: be_an(String),
+                                role: "user",
+                                active: true,
                             },
                             status: "success"
                         }
@@ -54,7 +56,9 @@ module Auth
                                 nickname: nil,
                                 provider: "email",
                                 uid: "",
-                                updated_at: nil
+                                updated_at: nil,
+                                role: "user",
+                                active: true,
                             },
                             errors: {
                                 full_messages: [ "Password can't be blank" ],
@@ -62,6 +66,23 @@ module Auth
                             },
                             status: "error"
                         }
+                    ))
+                end
+            end
+
+            context "when registering a new user with invalid role" do
+                it "returns unprocessable entity" do
+                    params = {
+                        email: "teste@gmail.com",
+                        password: "12345678",
+                        role: "admin"
+                    }
+
+                    post "/api/auth", params: params
+
+                    expect(response).to have_http_status(:unprocessable_entity)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        messages: ["You are not allowed to sign up with this role."]
                     ))
                 end
             end

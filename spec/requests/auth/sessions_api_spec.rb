@@ -24,6 +24,8 @@ module Auth
                                 nickname: nil,
                                 provider: "email",
                                 uid: "teste@gmail.com",
+                                role: "user",
+                                active: true,
                             },
                         }
                     ))
@@ -43,6 +45,22 @@ module Auth
                             errors: ["Invalid login credentials. Please try again."],
                             success: false,
                         }
+                    ))
+                end
+            end
+
+            context "when try to login with inactive account" do
+                it "returns unauthorized" do
+                    user = User.create!(email: "teste@gmail.com", password: "12345678", active: false)
+
+                    post "/api/auth/sign_in", params: {
+                        email: user.email,
+                        password: user.password,
+                    }
+
+                    expect(response).to have_http_status(:unauthorized)
+                    expect(response.parsed_body.deep_symbolize_keys).to(match(
+                        messages: ["Your account is not activated"],
                     ))
                 end
             end
