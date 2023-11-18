@@ -25,6 +25,12 @@ module Api
                 messages: [I18n.t("devise_token_auth.sessions.bad_credentials")]
               }, status: :unauthorized
             end
+
+            def render_destroy_error
+              render json: {
+                messages: [I18n.t("devise_token_auth.sessions.user_not_found")]
+              }, status: :not_found
+            end
         end
     end
 end

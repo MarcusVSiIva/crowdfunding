@@ -58,7 +58,7 @@ module Api
         end
 
         def project_params
-            params.permit(:name, :description, :active, :goal, :reward)
+            params.permit(:name, :description, :goal, :reward)
         end
     end
 end
