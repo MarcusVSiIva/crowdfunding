@@ -16,7 +16,7 @@ module Api
         end
 
         def update 
-            user = user_by_id
+            user = user_by_id!
             
             if user.update!(user_params)
                 render(json: ::UserSerializer.render(user, view: :complete))
@@ -28,7 +28,7 @@ module Api
         end
 
         def destroy
-            user = user_by_id
+            user = user_by_id!
 
             user.update!(active: false)
 
@@ -37,7 +37,7 @@ module Api
         
         private
           
-        def user_by_id
+        def user_by_id!
             user = User.find_by(id: params[:id])
             
             if user.blank?

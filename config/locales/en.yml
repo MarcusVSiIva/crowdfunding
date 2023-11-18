@@ -3,3 +3,4 @@ en:
     not_found: "not found"
   models:
     user: "User"
+    project: "Project"

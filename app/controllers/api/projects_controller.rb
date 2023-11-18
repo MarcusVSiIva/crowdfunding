@@ -23,7 +23,25 @@ module Api
             render(json: ::ProjectSerializer.render(project, view: :complete))
         end
 
+        def update
+            project = project_by_id!
+
+            project.update!(project_params)
+
+            render(json: ::ProjectSerializer.render(project, view: :complete))
+        end
+
         private
+
+        def project_by_id!
+            project = Project.find_by(id: params[:id])
+
+            if project.blank?
+                raise ActiveRecord::RecordNotFound, "#{I18n.t("models.project")} #{I18n.t("errors.not_found")}"
+            end
+
+            project
+        end
 
         def project_params
             params.permit(:name, :description, :active, :goal, :reward)
