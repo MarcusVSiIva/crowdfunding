@@ -16,6 +16,8 @@ gem "pg"
 gem 'devise_token_auth'
 gem 'devise'
 
+gem 'rack-cors'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
@@ -57,6 +59,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  gem 'rspec-rails', '~> 5.0'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
