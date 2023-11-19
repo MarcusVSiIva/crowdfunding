@@ -4,7 +4,7 @@ RSpec.describe 'Users', type: :request do
     describe 'GET /users' do
         context "when there are users" do
             it "returns a JSON with the users" do
-                user = User.create!(email: "teste@gmail.com", password: "12345678", name: "A")
+                user = User.create!(email: "teste@gmail.com", password: "12345678", name: "A", role: "admin")
                 user2 = User.create!(email: "teste@teste.com", password: "12345678", name: "B")
 
                 get "/api/users", headers: user.create_new_auth_token
@@ -23,7 +23,7 @@ RSpec.describe 'Users', type: :request do
                                 name: user.name,
                                 nickname: nil,
                                 active: true,
-                                role: "user",
+                                role: "admin",
                             },
                             {
                                 email: user2.email,
@@ -44,7 +44,7 @@ RSpec.describe 'Users', type: :request do
     describe 'PUT /users/:id' do
         context "when the user exists" do
             it "updates the user" do
-                user = User.create!(email: "teste@gmail.com", password: "12345678", name: "Teste")
+                user = User.create!(email: "teste@gmail.com", password: "12345678", name: "Teste", role: "admin")
 
                 params = {
                     name: "Testezin",
@@ -62,7 +62,7 @@ RSpec.describe 'Users', type: :request do
                         image: nil,
                         id: user.id,
                         active: true,
-                        role: "user",
+                        role: "admin",
                     }
                 ))
             end
@@ -75,7 +75,7 @@ RSpec.describe 'Users', type: :request do
                     nickname: "testezin"
                 }
 
-                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste", role: "admin")
 
                 put "/api/users/0", params: params, headers: user.create_new_auth_token
 
@@ -90,7 +90,7 @@ RSpec.describe 'Users', type: :request do
 
         context "when the user params are invalid" do
             it "returns a 422" do
-                user = User.create!(email: "teste@teste.com", password: "12345678", name: "Teste")
+                user = User.create!(email: "teste@teste.com", password: "12345678", name: "Teste", role: "admin")
 
                 params = {
                     email: "teste.com"
@@ -109,7 +109,7 @@ RSpec.describe 'Users', type: :request do
 
         context "when the email is already taken" do
             it "returns a 422" do
-                user = User.create!(email: "teste@teste.com", password: "12345678", name: "Teste")
+                user = User.create!(email: "teste@teste.com", password: "12345678", name: "Teste", role: "admin")
                 user2 = User.create!(email: "teste@gmail.com", password: "12345678", name: "Teste")
 
                 params = {
@@ -131,7 +131,7 @@ RSpec.describe 'Users', type: :request do
     describe 'DELETE /users/:id' do
         context "when the user exists" do
             it "deletes the user" do
-                user = User.create!(email: "teste@teste.com", password: "12345678", name: "Teste")
+                user = User.create!(email: "teste@teste.com", password: "12345678", name: "Teste", role: "admin")
 
                 delete "/api/users/#{user.id}", headers: user.create_new_auth_token
 
@@ -142,7 +142,7 @@ RSpec.describe 'Users', type: :request do
                         name: user.name,
                         nickname: nil,
                         active: false,
-                        role: "user",
+                        role: "admin",
                         image: nil,
                         id: user.id,    
                     }
@@ -152,7 +152,7 @@ RSpec.describe 'Users', type: :request do
 
         context "when the user does not exist" do
             it "returns a 404" do
-                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste", role: "admin")
 
                 delete "/api/users/0", headers: user.create_new_auth_token
 

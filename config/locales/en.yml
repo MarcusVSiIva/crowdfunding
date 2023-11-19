@@ -2,6 +2,7 @@ en:
   errors:
     not_found: "not found"
     taken: "has already been taken"
+    forbidden: "You are not authorized to access this resource."
   models:
     user: "User"
     project: "Project"

@@ -3,6 +3,7 @@
 module Api
     class UsersController < ApplicationController
         before_action :authenticate_api_user!
+        before_action :authorize_admin!
         
         def index
             users = ::UsersQuery.new(request.query_parameters)

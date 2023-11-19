@@ -97,7 +97,7 @@ RSpec.describe 'Projects', type: :request do
                     name: "Teste",
                 }
 
-                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste", role: "admin")
 
                 put "/api/projects/#{project.id}", params: params, headers: user.create_new_auth_token
 
@@ -121,7 +121,7 @@ RSpec.describe 'Projects', type: :request do
                     name: "Teste",
                 }
 
-                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste", role: "admin")
 
                 put "/api/projects/0", params: params, headers: user.create_new_auth_token
 
@@ -140,7 +140,7 @@ RSpec.describe 'Projects', type: :request do
             it "deletes the project" do
                 project = Project.create!(name: "testezin", description: "Teste", active: true, goal: 100, reward: "Teste")
 
-                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste", role: "admin")
 
                 delete "/api/projects/#{project.id}", headers: user.create_new_auth_token
 
@@ -160,7 +160,7 @@ RSpec.describe 'Projects', type: :request do
 
         context "when the project does not exist" do
             it "returns status code 404" do
-                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste", role: "admin")
 
                 delete "/api/projects/0", headers: user.create_new_auth_token
 
