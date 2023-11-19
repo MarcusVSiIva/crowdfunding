@@ -1,6 +1,9 @@
 en:
   errors:
     not_found: "not found"
+    taken: "has already been taken"
   models:
     user: "User"
     project: "Project"
+    email: "Email"  
+      

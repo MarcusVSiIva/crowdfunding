@@ -19,8 +19,12 @@ module Api
 
         def update 
             user = user_by_id!
-            
-            if user.update!(user_params)
+
+            if User.exists?(email: params[:email]) && User.find_by(email: params[:email]).id != user.id
+                render json: {
+                  messages: ["#{I18n.t("models.email")} #{I18n.t("errors.taken")}"]
+                }, status: :unprocessable_entity
+            elsif user.update(user_params)
                 render(json: ::UserSerializer.render(user, view: :complete))
             else
                 render json: {

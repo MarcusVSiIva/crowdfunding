@@ -11,4 +11,6 @@ class User < ActiveRecord::Base
   scope :active, -> { where(active: true) }
 
   has_many :sponsorships
+
+  validates :email, presence: true
 end

@@ -108,7 +108,7 @@ RSpec.describe 'Users', type: :request do
         end
 
         context "when the email is already taken" do
-            xit "returns a 422" do
+            it "returns a 422" do
                 user = User.create!(email: "teste@teste.com", password: "12345678", name: "Teste")
                 user2 = User.create!(email: "teste@gmail.com", password: "12345678", name: "Teste")
 
