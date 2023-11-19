@@ -7,7 +7,7 @@ RSpec.describe 'Users', type: :request do
                 user = User.create!(email: "teste@gmail.com", password: "12345678", name: "A")
                 user2 = User.create!(email: "teste@teste.com", password: "12345678", name: "B")
 
-                get "/api/users"
+                get "/api/users", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -51,7 +51,7 @@ RSpec.describe 'Users', type: :request do
                     nickname: "testezin"
                 }
 
-                put "/api/users/#{user.id}", params: params
+                put "/api/users/#{user.id}", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -75,7 +75,9 @@ RSpec.describe 'Users', type: :request do
                     nickname: "testezin"
                 }
 
-                put "/api/users/0", params: params
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                put "/api/users/0", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:not_found)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -94,7 +96,7 @@ RSpec.describe 'Users', type: :request do
                     email: "teste.com"
                 }
 
-                put "/api/users/#{user.id}", params: params
+                put "/api/users/#{user.id}", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:unprocessable_entity)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -114,7 +116,7 @@ RSpec.describe 'Users', type: :request do
                     email: user2.email
                 }
 
-                put "/api/users/#{user.id}", params: params
+                put "/api/users/#{user.id}", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:unprocessable_entity)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -131,7 +133,7 @@ RSpec.describe 'Users', type: :request do
             it "deletes the user" do
                 user = User.create!(email: "teste@teste.com", password: "12345678", name: "Teste")
 
-                delete "/api/users/#{user.id}"
+                delete "/api/users/#{user.id}", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -150,7 +152,9 @@ RSpec.describe 'Users', type: :request do
 
         context "when the user does not exist" do
             it "returns a 404" do
-                delete "/api/users/0"
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                delete "/api/users/0", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:not_found)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(

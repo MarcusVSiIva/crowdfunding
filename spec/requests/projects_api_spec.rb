@@ -7,7 +7,9 @@ RSpec.describe 'Projects', type: :request do
                 project = Project.create!(name: "Teste", description: "Teste", active: true, goal: 100, reward: "Teste")
                 project2 = Project.create!(name: "Teste2", description: "Teste2", active: true, goal: 100, reward: "Teste2")
 
-                get "/api/projects"
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                get "/api/projects", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -40,7 +42,9 @@ RSpec.describe 'Projects', type: :request do
 
         context "when there are no projects" do
             it "returns an empty JSON" do
-                get "/api/projects"
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                get "/api/projects", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -65,7 +69,9 @@ RSpec.describe 'Projects', type: :request do
                     reward: "Teste",
                 }
 
-                post "/api/projects", params: params
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                post "/api/projects", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -91,7 +97,9 @@ RSpec.describe 'Projects', type: :request do
                     name: "Teste",
                 }
 
-                put "/api/projects/#{project.id}", params: params
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                put "/api/projects/#{project.id}", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -113,7 +121,9 @@ RSpec.describe 'Projects', type: :request do
                     name: "Teste",
                 }
 
-                put "/api/projects/0", params: params
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                put "/api/projects/0", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:not_found)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -130,7 +140,9 @@ RSpec.describe 'Projects', type: :request do
             it "deletes the project" do
                 project = Project.create!(name: "testezin", description: "Teste", active: true, goal: 100, reward: "Teste")
 
-                delete "/api/projects/#{project.id}"
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                delete "/api/projects/#{project.id}", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -148,7 +160,9 @@ RSpec.describe 'Projects', type: :request do
 
         context "when the project does not exist" do
             it "returns status code 404" do
-                delete "/api/projects/0"
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                delete "/api/projects/0", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:not_found)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -165,7 +179,9 @@ RSpec.describe 'Projects', type: :request do
             it "returns the project" do
                 project = Project.create!(name: "testezin", description: "Teste", active: true, goal: 100, reward: "Teste")
 
-                get "/api/projects/#{project.id}"
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                get "/api/projects/#{project.id}", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -183,7 +199,9 @@ RSpec.describe 'Projects', type: :request do
 
         context "when the project does not exist" do
             it "returns status code 404" do
-                get "/api/projects/0"
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                get "/api/projects/0", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:not_found)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -208,7 +226,7 @@ RSpec.describe 'Projects', type: :request do
                 sponsorship2 = Sponsorship.create!(user: user2, project: project, amount: 50)
                 other_sponsorship = Sponsorship.create!(user: user2, project: project2, amount: 50)
 
-                get "/api/projects/#{project.id}/sponsorships"
+                get "/api/projects/#{project.id}/sponsorships", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -252,7 +270,9 @@ RSpec.describe 'Projects', type: :request do
 
         context "when the project does not exist" do
             it "returns status code 404" do
-                get "/api/projects/0/sponsorships"
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                get "/api/projects/0/sponsorships", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:not_found)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -266,8 +286,10 @@ RSpec.describe 'Projects', type: :request do
         context "when the project has no sponsorships" do
             it "returns an empty JSON" do
                 project = Project.create!(name: "testezin", description: "Teste", active: true, goal: 100, reward: "um bolo")
+                
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
 
-                get "/api/projects/#{project.id}/sponsorships"
+                get "/api/projects/#{project.id}/sponsorships", headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(

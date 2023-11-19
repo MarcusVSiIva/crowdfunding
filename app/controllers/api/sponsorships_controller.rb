@@ -2,6 +2,8 @@
 
 module Api
     class SponsorshipsController < ApplicationController
+        before_action :authenticate_api_user!
+        
         def create
             sponsorship = Sponsorship.new(sponsorship_params)
 

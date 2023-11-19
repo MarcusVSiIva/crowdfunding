@@ -91,7 +91,7 @@ module Auth
             end
 
             context "when trying to access an authenticated route after logout" do
-                xit "returns unauthorized" do
+                it "returns unauthorized" do
                     user = User.create!(email: "teste@teste.com", password: "12345678")
                     auth_params = auth_params(user)
 
@@ -102,7 +102,7 @@ module Auth
                     expect(response).to have_http_status(:unauthorized)
                     expect(response.parsed_body.deep_symbolize_keys).to(match(
                         {
-                            messages: ["You need to sign in or sign up before continuing."],
+                            errors: ["You need to sign in or sign up before continuing."],
                         }
                     ))
                 end

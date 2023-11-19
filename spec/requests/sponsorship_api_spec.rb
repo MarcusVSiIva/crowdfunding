@@ -12,8 +12,8 @@ RSpec.describe 'Sponsorship', type: :request do
                     project_id: project.id,
                     amount: 10.0
                 }
-
-                post "/api/sponsorships", params: params
+                
+                post "/api/sponsorships", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:success)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -44,7 +44,9 @@ RSpec.describe 'Sponsorship', type: :request do
                     amount: 10.0
                 }
 
-                post "/api/sponsorships", params: params
+                user = User.create!(email: "teste@teste.com", password: "123456", name: "Teste", nickname: "Teste")
+
+                post "/api/sponsorships", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:unprocessable_entity)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -65,7 +67,7 @@ RSpec.describe 'Sponsorship', type: :request do
                     amount: 10.0
                 }
 
-                post "/api/sponsorships", params: params
+                post "/api/sponsorships", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:unprocessable_entity)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(
@@ -77,7 +79,7 @@ RSpec.describe 'Sponsorship', type: :request do
         end
 
         context "when it has no amount" do
-            xit "does not create sponsorship" do
+            it "does not create sponsorship" do
                 user = User.create!(email: "teste@gmail.com", password: "12345678", name: "A")
                 project = Project.create!(name: "Teste", description: "Teste", active: true, goal: 100, reward: "Teste")
 
@@ -87,7 +89,7 @@ RSpec.describe 'Sponsorship', type: :request do
                     amount: nil
                 }
 
-                post "/api/sponsorships", params: params
+                post "/api/sponsorships", params: params, headers: user.create_new_auth_token
 
                 expect(response).to have_http_status(:unprocessable_entity)
                 expect(response.parsed_body.deep_symbolize_keys).to(match(

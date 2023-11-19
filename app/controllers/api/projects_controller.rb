@@ -2,6 +2,8 @@
 
 module Api
     class ProjectsController < ApplicationController
+        before_action :authenticate_api_user!
+        
         def index
             projects = ::ProjectsQuery.new(request.query_parameters)
 
